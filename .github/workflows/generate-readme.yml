@@ -3,7 +3,7 @@ name: Health check
 on:
   push:
   workflow_dispatch:
-  workflow_run:
+  workflow_call:
 
 jobs:
   generate-readme:
