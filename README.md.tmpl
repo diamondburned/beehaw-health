@@ -27,6 +27,6 @@ It has been {{ $status }} for {{ displaySeconds $deadDuration }}.
 {{- $secondsSinceLastCheck := math.Round ($now.Sub $lastChecked).Seconds -}}
 
 > **Note**: Last checked about {{ displaySeconds $secondsSinceLastCheck }}
-ago at {{ $lastChecked.Format "15:04:05 PT" }}.
+ago at {{ $lastChecked.Format "15:04:05 MST" }}.
 
 <!-- TODO: sparkline -->
