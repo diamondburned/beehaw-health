@@ -13,6 +13,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
 
       - uses: diamondburned/cache-install@main
         with:
@@ -24,3 +26,4 @@ jobs:
         with:
           commit_message: Update README.md
           commit_author: GitHub <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: ${{ github.ref_name }}

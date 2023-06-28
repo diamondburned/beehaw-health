@@ -14,6 +14,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
 
       - run: ./health-check >> health-data.csv
 
@@ -21,6 +23,7 @@ jobs:
         with:
           commit_message: Run periodic health check
           commit_author: GitHub <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: ${{ github.ref_name }}
 
   generate-readme:
     uses: ./.github/workflows/generate-readme.yml
