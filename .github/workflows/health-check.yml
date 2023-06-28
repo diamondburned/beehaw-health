@@ -4,7 +4,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: '* * * * *'
+    - cron: '*/2 * * * *'
 
 jobs:
   health-check:
