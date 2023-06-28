@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+curlQuiet() {
+	curl -so /dev/null "$@"
+}
+
+main() {
+	readonly BEEHAW_API_URL="https://beehaw.org/api/v3/post?id=1"
+	readonly BEEHAW_WEB_URL="https://beehaw.org"
+
+	read -r apiStatus apiLatency \
+		< <(curlQuiet -w '%{response_code} %{time_total}' "$BEEHAW_API_URL")
+	read -r webStatus webLatency \
+		< <(curlQuiet -w '%{response_code} %{time_total}' "$BEEHAW_WEB_URL")
+
+	printf "%(%s)T,%s,%s,%s,%s\n" -1 \
+		"$apiStatus" "$webStatus" "$apiLatency" "$webLatency"
+}
+
+main
