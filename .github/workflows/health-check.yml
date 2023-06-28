@@ -23,5 +23,5 @@ jobs:
           commit_author: GitHub <41898282+github-actions[bot]@users.noreply.github.com>
 
   generate-readme:
-    uses: ./.github/workflow/generate-readme.yml
+    uses: ./.github/workflows/generate-readme.yml
     secrets: inherit
