@@ -24,4 +24,5 @@ jobs:
 
   generate-readme:
     uses: ./.github/workflows/generate-readme.yml
+    needs: health-check
     secrets: inherit
