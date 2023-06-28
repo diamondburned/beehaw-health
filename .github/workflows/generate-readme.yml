@@ -1,4 +1,4 @@
-name: Health check
+name: Generate README.md
 
 on:
   push:
