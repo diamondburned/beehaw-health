@@ -18,3 +18,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Run periodic health check
+          commit_author: GitHub <41898282+github-actions[bot]@users.noreply.github.com>
