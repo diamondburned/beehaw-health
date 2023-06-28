@@ -3,25 +3,24 @@ name: Health check
 on:
   push:
   workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *'
+  workflow_run:
 
 jobs:
-  health-check:
-    name: Health check
+  generate-readme:
+    name: Generate README.md
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v3
 
-      - run: ./health-check >> health-data.csv
+      - uses: diamondburned/cache-install@main
+        with:
+          shell-file: shell.nix
+
+      - run: ./README-generate README.md
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Run periodic health check
+          commit_message: Update README.md
           commit_author: GitHub <41898282+github-actions[bot]@users.noreply.github.com>
-
-  generate-readme:
-    uses: ./.github/workflow/generate-readme.yml
-    secrets: inherit

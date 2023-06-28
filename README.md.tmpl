@@ -1,0 +1,32 @@
+# beehaw.org health checking
+
+{{ if eq .latest.api_status 200 -}}
+![beehaw.org is alive](https://img.shields.io/badge/Beehaw_API-alive-brightgreen.svg?style=flat-square)
+{{- else -}}
+![beehaw.org is dead](https://img.shields.io/badge/Beehaw_API-dead-red.svg?style=flat-square)
+{{- end }}
+{{ if eq .latest.web_status 200 -}}
+![beehaw.org is alive](https://img.shields.io/badge/Beehaw_Web-alive-brightgreen.svg?style=flat-square)
+{{- else -}}
+![beehaw.org is dead](https://img.shields.io/badge/Beehaw_Web-dead-red.svg?style=flat-square)
+{{- end -}}
+
+{{- $deadDuration := sub .latest.timestamp .since.timestamp -}}
+{{- $status := "" -}}
+{{- if eq .latest.web_status 200 -}}
+{{- $status = "alive" -}}
+{{- else -}}
+{{- $status = "dead" -}}
+{{- end }}
+
+Beehaw.org is {{ $status }}.
+It has been {{ $status }} for {{ displaySeconds $deadDuration }}.
+
+{{ $now := time.Now -}}
+{{- $lastChecked := time.Unix .latest.timestamp -}}
+{{- $secondsSinceLastCheck := math.Round ($now.Sub $lastChecked).Seconds -}}
+
+> **Note**: Last checked about {{ displaySeconds $secondsSinceLastCheck }}
+ago at {{ $lastChecked.Format "15:04:05 PT" }}.
+
+<!-- TODO: sparkline -->

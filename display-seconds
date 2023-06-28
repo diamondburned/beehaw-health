@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# https://unix.stackexchange.com/a/27014/253400
+
+T=$1
+D=$((T/60/60/24))
+H=$((T/60/60%24))
+M=$((T/60%60))
+S=$((T%60))
+
+(( $D > 0 )) && printf '%d days ' $D
+(( $H > 0 )) && printf '%d hours ' $H
+(( $M > 0 )) && printf '%d minutes ' $M
+(( $S > 0 && ($D > 0 || $H > 0 || $M > 0) )) && printf 'and '
+(( $S > 0 )) && printf '%d seconds' $S

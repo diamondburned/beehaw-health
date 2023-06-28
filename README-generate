@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# parseRecord record dst_assoc_array
+#
+# Parses a record from the CSV file and stores the data in the associative
+# array.
+parseRecord() {
+	local record=$1
+	declare -n dst=$2
+
+	# timestamp,api-status,web-status,api-latency,web-latency
+	IFS=, read -r \
+		timestamp \
+		api_status \
+		web_status \
+		api_latency \
+		web_latency <<<"$record"
+
+	dst[timestamp]="$timestamp"
+	dst[api-status]="$api_status"
+	dst[web-status]="$web_status"
+	dst[api-latency]="$api_latency"
+	dst[web-latency]="$web_latency"
+}
+
+readonly INTEGER_REGEX='^[0-9]+$'
+readonly DECIMAL_REGEX='^[0-9]+\.[0-9]+$'
+readonly NUMBER_REGEX="($INTEGER_REGEX|$DECIMAL_REGEX)"
+
+isNumber() {
+	[[ $1 =~ $NUMBER_REGEX ]]
+}
+
+# marshalRecord assoc_array
+#
+# Marshals the data in the associative array into a JSON object.
+marshalRecord() {
+	declare -n src=$1
+
+	jqArgs=(--null-input)
+	jqObject="{"
+
+	for key in "${!src[@]}"; do
+		val=${src[$key]}
+		key=${key//-/_}
+
+		mode=--arg
+		if isNumber "$val"; then
+			mode=--argjson
+		fi
+
+		jqArgs+=("$mode" "$key" "${val}")
+		jqObject+="\$$key, "
+	done
+
+	jqObject+="}"
+
+	jq "${jqArgs[@]}" "$jqObject"
+}
+
+main() {
+	IFS=$'\n' records=( $(cat health-data.csv) )
+
+	declare -A latest
+	declare -A since
+
+	# Grab the latest record.
+	parseRecord "${records[-1]}" latest
+
+	# Calculate how long we've been up/down for.
+	for ((i = (${#records[@]} - 1); i > 0; i--)); do
+		parseRecord "${records[i]}" since
+
+		if \
+			[[ ${since[api-status]} != ${latest[api-status]} ]] || \
+			[[ ${since[web-status]} != ${latest[web-status]} ]]; then
+			break
+		fi
+	done
+
+	data=$(jq --null-input \
+		--argjson "latest" "$(marshalRecord latest)" \
+		--argjson "since"  "$(marshalRecord since)"  \
+		'{ $latest, $since }')
+
+	echo "$data" | gomplate \
+		--context .=stdin:///data.json \
+		--plugin displaySeconds=./display-seconds \
+		--file README.md.tmpl
+}
+
+case "$1" in
+-h|--help)
+	echo "Usage: $0 [-h|--help] [FILE]" >&2;;
+"")
+	main;;
+*)
+	main > "$1";;
+esac
