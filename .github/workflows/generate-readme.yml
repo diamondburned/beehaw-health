@@ -1,7 +1,6 @@
 name: Generate README.md
 
 on:
-  push:
   workflow_dispatch:
   workflow_call:
 
