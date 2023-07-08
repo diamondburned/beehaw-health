@@ -4,8 +4,8 @@
 ![beehaw.org is dead](https://img.shields.io/badge/Beehaw_Web-dead-red.svg?style=flat-square)
 
 Beehaw.org is dead.
-It has been dead for 19 minutes and 59 seconds.
+It has been dead for 13 minutes and 4 seconds.
 
-> **Note**: Last checked at 20:13:56 UTC.
+> **Note**: Last checked at 20:27:00 UTC.
 
 <!-- TODO: sparkline -->
