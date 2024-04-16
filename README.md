@@ -1,11 +1,11 @@
 # beehaw.org health checking
 
 ![beehaw.org is alive](https://img.shields.io/badge/Beehaw_API-alive-brightgreen.svg?style=flat-square)
-![beehaw.org is alive](https://img.shields.io/badge/Beehaw_Web-alive-brightgreen.svg?style=flat-square)
+![beehaw.org is dead](https://img.shields.io/badge/Beehaw_Web-dead-red.svg?style=flat-square)
 
-Beehaw.org is alive.
-It has been alive for 22 hours 52 minutes and 34 seconds.
+Beehaw.org is dead.
+It has been dead for 12 minutes and 18 seconds.
 
-> **Note**: Last checked at 20:22:59 UTC.
+> **Note**: Last checked at 20:35:17 UTC.
 
 <!-- TODO: sparkline -->
